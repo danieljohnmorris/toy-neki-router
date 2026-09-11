@@ -1,6 +1,6 @@
 # toy-neki-router
 
-A ~200-line Postgres **wire-compatible sharding proxy**, built to understand how [Neki](https://neki.dev/) (sharded Postgres by PlanetScale) routes queries. It speaks enough of the Postgres wire protocol that `psql` or any `pg` driver can connect to it, parses each simple query, routes by shard key, and merges partial aggregates on scatter queries.
+A ~260-line Postgres **wire-compatible sharding proxy**, built to understand how [Neki](https://neki.dev/) (sharded Postgres by PlanetScale) routes queries. It speaks enough of the Postgres wire protocol that `psql` or any `pg` driver can connect to it, parses each simple query, routes by shard key, and merges partial aggregates on scatter queries.
 
 Three real Postgres shards run in Docker behind it. The routing topology mirrors the shape of a [Neki data topology document](https://planetscale.com/docs/neki/data-topology).
 
