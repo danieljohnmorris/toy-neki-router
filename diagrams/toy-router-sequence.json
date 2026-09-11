@@ -12,9 +12,9 @@
   "participants": [
     { "id": "client", "type": "external", "label": "Client", "sublabel": "any pg driver" },
     { "id": "router", "type": "backend", "label": "Toy Router", "sublabel": ":54320" },
-    { "id": "shard-b", "type": "database", "label": "shard-b", "sublabel": "0x42 range" },
-    { "id": "shard-a", "type": "database", "label": "shard-a", "sublabel": "0x00 range" },
-    { "id": "shard-c", "type": "database", "label": "shard-c", "sublabel": "0xaa range" }
+    { "id": "shard-b", "type": "database", "label": "shard-b", "sublabel": "range 40-80" },
+    { "id": "shard-a", "type": "database", "label": "shard-a", "sublabel": "range 00-40" },
+    { "id": "shard-c", "type": "database", "label": "shard-c", "sublabel": "range 80-ff" }
   ],
   "segments": [
     { "from": 130, "to": 215, "label": "Point lookup" },

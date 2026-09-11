@@ -62,8 +62,9 @@ export function shardGroup(table: string) {
   return topology.authoritative_shard_group;
 }
 
-// XXH3-64 of the shard key, rendered as hex, matched against the group's
-// key ranges — same pipeline the Neki router runs.
+// XXH64 of the shard key, rendered as hex, matched against the group's key
+// ranges. Same pipeline shape as the Neki router, but Neki specifies XXH3-64
+// (not available in xxhash-wasm), so digests differ from a real cluster.
 export async function route(table: string, shardKeyValue: string): Promise<string> {
   const groupUid = shardGroup(table);
   const group = topology.shard_groups.find((g) => g.uid === groupUid);

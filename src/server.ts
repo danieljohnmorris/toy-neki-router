@@ -29,7 +29,8 @@ function shardKeyColumn(table: string): string {
   throw new Error(`table ${table} not in topology`);
 }
 
-// First byte of the XXH3-64 digest — the routing key matched against key ranges.
+// First byte of the XXH64 digest - the routing key matched against key ranges.
+// (Real Neki specifies XXH3-64; xxhash-wasm ships XXH64, so hashes differ.)
 function routingKey(value: string): string {
   return h64(value).toString(16).padStart(16, "0").slice(0, 2);
 }
