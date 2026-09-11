@@ -60,6 +60,7 @@ Queries without the shard key scatter to every shard in the group; the router co
 - **Simple query protocol only** - no extended protocol, no prepared statements.
 - **Regex query parsing** - real Neki has a full Postgres query parser and distributed planner.
 - **Merge is naive** - it merges `count` aggregates only; no sort merge, no limit re-application after merge (`limit 3` returns up to 3 rows per shard), no joins across shards.
+- **XXH64, not XXH3-64** - Neki specifies XXH3-64; `xxhash-wasm` ships XXH64. Same pipeline shape, different digests, so shard assignments won't match a real Neki cluster's.
 - **Single router process** - real Neki routers are horizontally scalable and pool connections via sidecars.
 - **Writes aren't routed** - every INSERT/UPDATE/DELETE goes to shard-a; only SELECT carries a shard-key predicate. That's why the seed script talks to the shards directly.
 - **No resharding** - Neki's headline feature is zero-downtime splits; here you'd have to rewrite the topology JSON and move rows by hand.
