@@ -1,0 +1,13 @@
+services:
+  shard-a:
+    image: postgres:18
+    environment: { POSTGRES_PASSWORD: postgres }
+    ports: ["5433:5432"]
+  shard-b:
+    image: postgres:18
+    environment: { POSTGRES_PASSWORD: postgres }
+    ports: ["5434:5432"]
+  shard-c:
+    image: postgres:18
+    environment: { POSTGRES_PASSWORD: postgres }
+    ports: ["5435:5432"]

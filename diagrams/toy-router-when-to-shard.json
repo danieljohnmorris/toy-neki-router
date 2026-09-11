@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "When to Shard Postgres",
+    "subtitle": "Decision path distilled from Neki's when-to-shard guidance",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "output": "toy-router-when-to-shard.html",
+    "views": [
+      { "id": "stay-single", "label": "Stay single", "focus": ["start", "hotspot", "vertical"], "note": "Most workloads should keep scaling a single Postgres first." },
+      { "id": "shard-path", "label": "Shard path", "focus": ["shardkey", "route", "split"], "note": "When a hot working set outgrows one machine, shard on a high-cardinality key." },
+      { "id": "wrong-key", "label": "Wrong key trap", "focus": ["shardkey", "scatterwarn"], "note": "Sharding on a key your queries don't carry turns every query into scatter." }
+    ]
+  },
+  "lanes": [
+    { "id": "decision", "label": "Decision" },
+    { "id": "signals", "label": "Signals to check", "variant": "exception" },
+    { "id": "actions", "label": "Action" }
+  ],
+  "phases": [
+    { "id": "assess", "label": "Assess", "fromCol": 0, "toCol": 1 },
+    { "id": "shard", "label": "Shard", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "operate", "label": "Operate", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "mainPath": ["start", "hotspot", "vertical", "shardkey", "route", "split"],
+  "nodes": [
+    { "id": "start", "lane": "decision", "col": 0, "type": "external", "label": "Postgres at the edge?", "sublabel": "CPU, IOPS, working set", "width": 150 },
+    { "id": "hotspot", "lane": "signals", "col": 1, "type": "database", "label": "Hotspot signals", "sublabel": "one table dominates", "width": 150, "tag": "check first" },
+    { "id": "vertical", "lane": "actions", "col": 1, "type": "backend", "label": "Scale vertically", "sublabel": "indexes, caching, bigger node", "width": 150 },
+    { "id": "shardkey", "lane": "decision", "col": 2, "type": "security", "label": "Natural shard key?", "sublabel": "tenant_id, high cardinality", "width": 150 },
+    { "id": "scatterwarn", "lane": "signals", "col": 3, "type": "security", "label": "Scatter risk", "sublabel": "queries without the key", "width": 150, "tag": "trap" },
+    { "id": "route", "lane": "actions", "col": 3, "type": "backend", "label": "Route by key", "sublabel": "xxhash -> key ranges", "width": 150 },
+    { "id": "split", "lane": "actions", "col": 4, "type": "cloud", "label": "Split as you grow", "sublabel": "zero-downtime reshard", "width": 150 },
+    { "id": "global", "lane": "actions", "col": 5, "type": "database", "label": "Reference tables", "sublabel": "small, shared, unsharded", "width": 150 }
+  ],
+  "edges": [
+    { "id": "start-hotspot", "from": "start", "to": "hotspot", "label": "measure", "variant": "default" },
+    { "id": "hotspot-vertical", "from": "hotspot", "to": "vertical", "label": "usually enough", "variant": "emphasis" },
+    { "id": "vertical-shardkey", "from": "vertical", "to": "shardkey", "label": "still saturated?", "variant": "default", "route": "bottom-channel", "labelSegment": 1 },
+    { "id": "hotspot-shardkey", "from": "hotspot", "to": "shardkey", "label": "no ceiling in sight", "variant": "dashed", "role": "branch" },
+    { "id": "shardkey-scatterwarn", "from": "shardkey", "to": "scatterwarn", "label": "audit access patterns", "variant": "security" },
+    { "id": "shardkey-route", "from": "shardkey", "to": "route", "label": "key found", "variant": "emphasis" },
+    { "id": "scatterwarn-route", "from": "scatterwarn", "to": "route", "label": "re-think or co-locate", "variant": "dashed", "role": "branch" },
+    { "id": "route-split", "from": "route", "to": "split", "variant": "emphasis" },
+    { "id": "split-global", "from": "split", "to": "global", "label": "join locality", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Default answer", "items": ["Sharding is the last scale lever, not the first", "Vertical headroom plus caching covers most workloads for years"] },
+    { "dot": "rose", "title": "The one rule", "items": ["Every hot query must carry the shard key", "If it can't, you have a scatter problem, not a scale problem"] }
+  ]
+}

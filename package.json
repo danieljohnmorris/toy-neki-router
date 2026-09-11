@@ -1,0 +1,24 @@
+{
+  "name": "toy-neki-router",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A teaching-sized sharded-Postgres router: Postgres wire protocol in, xxhash key-range routing out, N real Postgres shards behind it.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "start": "tsx src/server.ts",
+    "seed": "tsx scripts/seed.ts",
+    "demo": "tsx scripts/demo.ts",
+    "up": "docker compose up -d",
+    "down": "docker compose down"
+  },
+  "dependencies": {
+    "pg": "^8.23.0",
+    "tsx": "^4.19.0",
+    "xxhash-wasm": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "@types/pg": "^8.23.1",
+    "typescript": "^5.9.2"
+  }
+}

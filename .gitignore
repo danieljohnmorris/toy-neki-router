@@ -1,0 +1,4 @@
+node_modules/
+diagrams/*.visual-check.*
+diagrams/*.visual-check.html
+*.log

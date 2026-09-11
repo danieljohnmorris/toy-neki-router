@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Routed Query Lifecycle",
+    "subtitle": "One shard-key query vs a scatter-gather, through the toy router",
+    "output": "toy-router-sequence.html",
+    "viewBox": [960, 620],
+    "quality_profile": "showcase",
+    "locale": "en"
+  },
+  "participants": [
+    { "id": "client", "type": "external", "label": "Client", "sublabel": "any pg driver" },
+    { "id": "router", "type": "backend", "label": "Toy Router", "sublabel": ":54320" },
+    { "id": "shard-b", "type": "database", "label": "shard-b", "sublabel": "0x42 range" },
+    { "id": "shard-a", "type": "database", "label": "shard-a", "sublabel": "0x00 range" },
+    { "id": "shard-c", "type": "database", "label": "shard-c", "sublabel": "0xaa range" }
+  ],
+  "segments": [
+    { "from": 130, "to": 215, "label": "Point lookup" },
+    { "from": 225, "to": 395, "label": "Scatter-gather" },
+    { "from": 410, "to": 530, "label": "Answer" }
+  ],
+  "messages": [
+    { "id": "connect", "from": "client", "to": "router", "y": 160, "label": "startup + auth", "variant": "default" },
+    { "id": "query", "from": "client", "to": "router", "y": 195, "label": "Query: select ... where tenant_id = 'globex'", "variant": "emphasis", "note": "Router parses the simple-query text and extracts the shard-key predicate" },
+    { "id": "route", "from": "router", "to": "shard-b", "y": 230, "label": "xxhash('globex') = 0x42 -> shard-b", "variant": "emphasis" },
+    { "id": "rows-b", "from": "shard-b", "to": "router", "y": 265, "label": "rows", "variant": "return" },
+    { "id": "scatter-query", "from": "client", "to": "router", "y": 300, "label": "Query: ... group by tenant_id (no key)", "variant": "emphasis" },
+    { "id": "fanout-a", "from": "router", "to": "shard-a", "y": 335, "label": "same SQL", "variant": "default" },
+    { "id": "fanout-b", "from": "router", "to": "shard-b", "y": 368, "label": "same SQL", "variant": "default" },
+    { "id": "fanout-c", "from": "router", "to": "shard-c", "y": 400, "label": "same SQL", "variant": "default" },
+    { "id": "partial", "from": "shard-c", "to": "router", "y": 432, "label": "partial aggregates", "variant": "return" },
+    { "id": "merge-note", "from": "router", "to": "shard-c", "y": 465, "label": "merge groups + sort", "variant": "dashed", "note": "Toy router merges partial aggregates in-process; real Neki does this in the distributed planner" },
+    { "id": "answer", "from": "router", "to": "client", "y": 505, "label": "RowDescription + DataRow + ReadyForQuery", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "router", "from": 130, "to": 510, "type": "backend" },
+    { "participant": "shard-b", "from": 230, "to": 375, "type": "database" },
+    { "participant": "shard-a", "from": 335, "to": 348, "type": "database" },
+    { "participant": "shard-c", "from": 400, "to": 442, "type": "database" }
+  ]
+}
