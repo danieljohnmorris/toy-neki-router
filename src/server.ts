@@ -87,11 +87,16 @@ function errorResponse(msg: string): Buffer {
 }
 
 function rowDescription(columns: string[]): Buffer {
-  const fields = columns.map((c) =>
-    Buffer.concat([Buffer.from(`${c}\0`), Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])])
-  );
-  const fieldBufs = Buffer.concat(fields);
-  const body = Buffer.concat([short(columns.length), fieldBufs, Buffer.from([0])]);
+  // Per field: name\0, tableOID(4), attnum(2), typeOID(4)=705 unknown,
+  // typlen(2)=-1, atttypmod(4)=-1, format(2)=0 text.
+  const fields = columns.map((c) => {
+    const meta = Buffer.alloc(18);
+    meta.writeInt32BE(705, 6);
+    meta.writeInt16BE(-1, 10);
+    meta.writeInt32BE(-1, 12);
+    return Buffer.concat([Buffer.from(`${c}\0`), meta]);
+  });
+  const body = Buffer.concat([short(columns.length), ...fields]);
   return framed("T", body); // RowDescription
 }
 
@@ -199,11 +204,12 @@ const server = net.createServer((socket) => {
 
   function nextMessage(): Buffer | null {
     if (!authenticated) {
-      if (pending.length < 4) return null;
-      if (pending.readInt32BE(0) === 80877103) return pending.subarray(0, 8);
-      // First non-SSL message is a typed frame: need type byte + length
-      if (pending.length < 5) return null;
-      return pending.subarray(0, 5 + Math.max(0, pending.readInt32BE(1) - 4));
+      // Pre-auth frames (SSLRequest, GSSENCRequest, StartupMessage) are
+      // untyped: Int32 total length, Int32 code, then payload.
+      if (pending.length < 8) return null;
+      const len = pending.readInt32BE(0);
+      if (pending.length < len) return null;
+      return pending.subarray(0, len);
     }
     if (pending.length < 5) return null;
     const len = pending.readInt32BE(1);
@@ -214,8 +220,9 @@ const server = net.createServer((socket) => {
   function handle(buf: Buffer) {
     pending = pending.subarray(buf.length);
     if (!authenticated) {
-      if (buf.readInt32BE(0) === 80877103) {
-        socket.write(Buffer.from([0x4e])); // SSLRequest declined; client retries cleartext
+      const code = buf.readInt32BE(4);
+      if (code === 80877103 || code === 80877104) {
+        socket.write(Buffer.from([0x4e])); // SSL/GSSENC declined; client retries cleartext
         return;
       }
       authenticated = true;

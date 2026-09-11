@@ -17,21 +17,19 @@
     { "id": "client", "type": "external", "label": "Any Postgres Client", "sublabel": "psql / node-postgres", "pos": [60, 300], "size": [150, 64] },
     { "id": "router", "type": "backend", "label": "Toy Router", "sublabel": ":54320 wire protocol", "pos": [330, 300], "size": [150, 72], "tag": "parse + route" },
     { "id": "topology", "type": "database", "label": "Topology", "sublabel": "topology.json", "pos": [330, 130], "size": [150, 60], "tag": "Neki-shaped" },
-    { "id": "shard-a", "type": "database", "label": "shard-a", "sublabel": "postgres :54321", "pos": [620, 140], "size": [140, 60], "tag": "range 00-54" },
-    { "id": "shard-b", "type": "database", "label": "shard-b", "sublabel": "postgres :54322", "pos": [620, 300], "size": [140, 60], "tag": "range 54-aa" },
-    { "id": "shard-c", "type": "database", "label": "shard-c", "sublabel": "postgres :54323", "pos": [620, 460], "size": [140, 60], "tag": "range aa+" },
-    { "id": "docker", "type": "cloud", "label": "Docker Compose", "sublabel": "3 containers", "pos": [860, 300], "size": [130, 60] }
+    { "id": "shard-a", "type": "database", "label": "shard-a", "sublabel": "postgres :5433", "pos": [620, 140], "size": [140, 60], "tag": "range 00-40" },
+    { "id": "shard-b", "type": "database", "label": "shard-b", "sublabel": "postgres :5434", "pos": [620, 300], "size": [140, 60], "tag": "range 40-80" },
+    { "id": "shard-c", "type": "database", "label": "shard-c", "sublabel": "postgres :5435", "pos": [620, 460], "size": [140, 60], "tag": "range 80-ff" }
   ],
   "boundaries": [
-    { "kind": "region", "label": "docker-compose", "wraps": ["shard-a", "shard-b", "shard-c", "docker"] }
+    { "kind": "region", "label": "docker-compose", "wraps": ["shard-a", "shard-b", "shard-c"] }
   ],
   "connections": [
     { "id": "client-router", "from": "client", "to": "router", "label": "Postgres wire protocol", "variant": "emphasis" },
     { "id": "topology-router", "from": "topology", "to": "router", "label": "load topology", "variant": "dashed", "labelAt": [405, 250] },
     { "id": "router-a", "from": "router", "to": "shard-a", "label": "route or scatter", "labelDy": 20 },
     { "id": "router-b", "from": "router", "to": "shard-b", "label": "xxhash route", "variant": "emphasis", "labelAt": [660, 374] },
-    { "id": "router-c", "from": "router", "to": "shard-c", "label": "route or scatter" },
-    { "id": "shards-docker", "from": "shard-b", "to": "docker", "variant": "dashed", "fromSide": "right", "toSide": "left" }
+    { "id": "router-c", "from": "router", "to": "shard-c", "label": "route or scatter" }
   ],
   "cards": [
     { "dot": "cyan", "title": "Routing", "items": ["Shard-key predicate -> xxhash64 -> key range -> one shard", "No predicate -> scatter to every shard in the group"] },

@@ -5005,7 +5005,7 @@
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / PLATE 04">
-      <svg viewBox="0 0 1060 608" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
+      <svg viewBox="0 0 830 608" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
         <title id="archify-diagram-title">Toy Neki Router</title>
         <desc id="archify-diagram-description">A Postgres-wire-compatible sharding proxy in front of three real Postgres shards</desc>
         <!-- Definitions -->
@@ -5031,7 +5031,7 @@
         <rect width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Boundaries (behind everything) -->
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="docker-compose" x="590" y="110" width="430" height="430" rx="12" class="c-region" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="docker-compose" x="590" y="110" width="200" height="430" rx="12" class="c-region" stroke-width="1"/>
 
         <!-- Connection paths (before components for correct z-order) -->
         <path data-edge-from="client" data-edge-to="router" data-edge-label="Postgres wire protocol" data-edge-key="0" data-edge-id="client-router" data-composition-points="210,332;330,332" d="M 210 332 L 330 332" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
@@ -5039,7 +5039,6 @@
         <path data-edge-from="router" data-edge-to="shard-a" data-edge-label="route or scatter" data-edge-key="2" data-edge-id="router-a" data-composition-points="480,329;550,329;550,170;620,170" d="M 480 329 L 542 329 Q 550 329 550 321 L 550 178 Q 550 170 558 170 L 620 170" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         <path data-edge-from="router" data-edge-to="shard-b" data-edge-label="xxhash route" data-edge-key="3" data-edge-id="router-b" data-composition-points="480,336;504,336;504,352;596,352;596,330;620,330" d="M 480 336 L 496 336 Q 504 336 504 344 L 504 344 Q 504 352 512 352 L 588 352 Q 596 352 596 344 L 596 338 Q 596 330 604 330 L 620 330" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="router" data-edge-to="shard-c" data-edge-label="route or scatter" data-edge-key="4" data-edge-id="router-c" data-composition-points="480,343;550,343;550,490;620,490" d="M 480 343 L 542 343 Q 550 343 550 351 L 550 482 Q 550 490 558 490 L 620 490" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="shard-b" data-edge-to="docker" data-edge-key="5" data-edge-id="shards-docker" data-composition-points="760,330;860,330" d="M 760 330 L 860 330" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
 
         <!-- Components -->
         <g id="node-client" data-node-id="client" data-node-label="Any Postgres Client" tabindex="0" role="button" aria-label="Focus Any Postgres Client, psql / node-postgres, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="psql / node-postgres" data-node-context="Architecture component">
@@ -5079,8 +5078,8 @@
         <text data-detail="fine" x="405" y="182" class="t-database" font-size="7" text-anchor="middle">Neki-shaped</text>
         </g>
 
-        <g id="node-shard-a" data-node-id="shard-a" data-node-label="shard-a" tabindex="0" role="button" aria-label="Focus shard-a, postgres :54321, docker-compose" aria-pressed="false" data-node-kind="database" data-node-sublabel="postgres :54321" data-node-tag="range 00-54" data-node-context="docker-compose">
-          <title>shard-a · postgres :54321 · docker-compose · range 00-54</title>
+        <g id="node-shard-a" data-node-id="shard-a" data-node-label="shard-a" tabindex="0" role="button" aria-label="Focus shard-a, postgres :5433, docker-compose" aria-pressed="false" data-node-kind="database" data-node-sublabel="postgres :5433" data-node-tag="range 00-40" data-node-context="docker-compose">
+          <title>shard-a · postgres :5433 · docker-compose · range 00-40</title>
           <rect x="620" y="140" width="140" height="60" rx="6" class="c-mask"/>
           <rect x="620" y="140" width="140" height="60" rx="6" class="c-database" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(626 146) scale(0.6875)">
@@ -5088,12 +5087,12 @@
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
           <text data-node-label="" data-detail-anchor="" x="690" y="168" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">shard-a</text>
-        <text data-detail="context" x="690" y="184" class="t-muted" font-size="9" text-anchor="middle">postgres :54321</text>
-        <text data-detail="fine" x="690" y="192" class="t-database" font-size="7" text-anchor="middle">range 00-54</text>
+        <text data-detail="context" x="690" y="184" class="t-muted" font-size="9" text-anchor="middle">postgres :5433</text>
+        <text data-detail="fine" x="690" y="192" class="t-database" font-size="7" text-anchor="middle">range 00-40</text>
         </g>
 
-        <g id="node-shard-b" data-node-id="shard-b" data-node-label="shard-b" tabindex="0" role="button" aria-label="Focus shard-b, postgres :54322, docker-compose" aria-pressed="false" data-node-kind="database" data-node-sublabel="postgres :54322" data-node-tag="range 54-aa" data-node-context="docker-compose">
-          <title>shard-b · postgres :54322 · docker-compose · range 54-aa</title>
+        <g id="node-shard-b" data-node-id="shard-b" data-node-label="shard-b" tabindex="0" role="button" aria-label="Focus shard-b, postgres :5434, docker-compose" aria-pressed="false" data-node-kind="database" data-node-sublabel="postgres :5434" data-node-tag="range 40-80" data-node-context="docker-compose">
+          <title>shard-b · postgres :5434 · docker-compose · range 40-80</title>
           <rect x="620" y="300" width="140" height="60" rx="6" class="c-mask"/>
           <rect x="620" y="300" width="140" height="60" rx="6" class="c-database" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(626 306) scale(0.6875)">
@@ -5101,12 +5100,12 @@
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
           <text data-node-label="" data-detail-anchor="" x="690" y="328" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">shard-b</text>
-        <text data-detail="context" x="690" y="344" class="t-muted" font-size="9" text-anchor="middle">postgres :54322</text>
-        <text data-detail="fine" x="690" y="352" class="t-database" font-size="7" text-anchor="middle">range 54-aa</text>
+        <text data-detail="context" x="690" y="344" class="t-muted" font-size="9" text-anchor="middle">postgres :5434</text>
+        <text data-detail="fine" x="690" y="352" class="t-database" font-size="7" text-anchor="middle">range 40-80</text>
         </g>
 
-        <g id="node-shard-c" data-node-id="shard-c" data-node-label="shard-c" tabindex="0" role="button" aria-label="Focus shard-c, postgres :54323, docker-compose" aria-pressed="false" data-node-kind="database" data-node-sublabel="postgres :54323" data-node-tag="range aa+" data-node-context="docker-compose">
-          <title>shard-c · postgres :54323 · docker-compose · range aa+</title>
+        <g id="node-shard-c" data-node-id="shard-c" data-node-label="shard-c" tabindex="0" role="button" aria-label="Focus shard-c, postgres :5435, docker-compose" aria-pressed="false" data-node-kind="database" data-node-sublabel="postgres :5435" data-node-tag="range 80-ff" data-node-context="docker-compose">
+          <title>shard-c · postgres :5435 · docker-compose · range 80-ff</title>
           <rect x="620" y="460" width="140" height="60" rx="6" class="c-mask"/>
           <rect x="620" y="460" width="140" height="60" rx="6" class="c-database" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(626 466) scale(0.6875)">
@@ -5114,19 +5113,8 @@
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
           <text data-node-label="" data-detail-anchor="" x="690" y="488" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">shard-c</text>
-        <text data-detail="context" x="690" y="504" class="t-muted" font-size="9" text-anchor="middle">postgres :54323</text>
-        <text data-detail="fine" x="690" y="512" class="t-database" font-size="7" text-anchor="middle">range aa+</text>
-        </g>
-
-        <g id="node-docker" data-node-id="docker" data-node-label="Docker Compose" tabindex="0" role="button" aria-label="Focus Docker Compose, 3 containers, docker-compose" aria-pressed="false" data-node-kind="cloud" data-node-sublabel="3 containers" data-node-context="docker-compose">
-          <title>Docker Compose · 3 containers · docker-compose</title>
-          <rect x="860" y="300" width="130" height="60" rx="6" class="c-mask"/>
-          <rect x="860" y="300" width="130" height="60" rx="6" class="c-cloud" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="cloud" class="semantic-sigil s-cloud" transform="translate(866 306) scale(0.6875)">
-            <path d="M4.3 12.5h7.3a2.4 2.4 0 0 0 .2-4.8 4 4 0 0 0-7.5-1.3A3.1 3.1 0 0 0 4.3 12.5Z"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="925" y="328" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Docker Compose</text>
-        <text data-detail="context" x="925" y="344" class="t-muted" font-size="9" text-anchor="middle">3 containers</text>
+        <text data-detail="context" x="690" y="504" class="t-muted" font-size="9" text-anchor="middle">postgres :5435</text>
+        <text data-detail="fine" x="690" y="512" class="t-database" font-size="7" text-anchor="middle">range 80-ff</text>
         </g>
 
         <!-- Connection labels -->
@@ -5151,7 +5139,6 @@
           <text x="550" y="406.5" class="t-muted" font-size="8" text-anchor="middle">route or scatter</text>
         </g>
 
-
         <!-- Boundary labels (foreground masks keep routes out of titles) -->
         <g data-graph-role="structural-frame-label" data-composition-frame-id="0" data-composition-frame-kind="region" data-composition-frame-label="docker-compose">
           <rect data-graph-role="structural-frame-label-mask" x="594" y="120" width="85.6" height="16" rx="3" class="c-mask"/>
@@ -5169,13 +5156,9 @@
             <rect x="140" y="583" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
             <text x="162" y="592" class="t-muted" font-size="10" font-weight="500">Database</text>
           </g>
-          <g data-legend-semantic-kind="cloud" data-legend-kind="cloud" data-legend-label="Cloud" data-legend-x="245" data-legend-baseline="592" data-legend-width="68">
-            <rect x="245" y="583" width="16" height="10" rx="2.5" class="c-cloud" stroke-width="1"/>
-            <text x="267" y="592" class="t-muted" font-size="10" font-weight="500">Cloud</text>
-          </g>
-          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="External" data-legend-x="335" data-legend-baseline="592" data-legend-width="83">
-            <rect x="335" y="583" width="16" height="10" rx="2.5" class="c-external" stroke-width="1"/>
-            <text x="357" y="592" class="t-muted" font-size="10" font-weight="500">External</text>
+          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="External" data-legend-x="245" data-legend-baseline="592" data-legend-width="83">
+            <rect x="245" y="583" width="16" height="10" rx="2.5" class="c-external" stroke-width="1"/>
+            <text x="267" y="592" class="t-muted" font-size="10" font-weight="500">External</text>
           </g>
         </g>
       </svg>
